@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#f7f0ff">
+<title>SLIDE BEAT</title>
+<style>
+:root{--ink:#493d55;--muted:#93869e;--pink:#f064ad;--purple:#8c65c4}
+*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:linear-gradient(145deg,#fff4fa,#edf8ff);overscroll-behavior:none}body{min-height:100svh;display:flex;justify-content:center;padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom)}button{font:inherit;border:0;cursor:pointer}.app{width:min(100%,480px);min-height:100svh;display:flex;flex-direction:column;padding:14px 12px 16px}.hidden{display:none!important}
+.brand{text-align:center;margin:6px 0 12px}.brand h1{font-size:clamp(38px,10vw,52px);line-height:1;margin:0;color:var(--pink);letter-spacing:1px;text-shadow:2px 3px #ffe0ef}.sub{font-size:10px;letter-spacing:4px;color:#9d8caf;font-weight:900;margin-top:7px}
+.card{background:#ffffffdc;border:3px solid #fff;border-radius:26px;padding:18px;box-shadow:0 12px 35px #b9a5cf33}.mascot{font-size:82px;line-height:1.2;text-align:center;margin:10px auto}.muted{font-size:13px;line-height:1.65;color:var(--muted)}.primary{width:100%;border-radius:18px;padding:15px;background:linear-gradient(100deg,#ff73b5,#ad8af4);color:white;font-size:19px;font-weight:950;box-shadow:0 5px #d75d9b}.primary:active{transform:translateY(2px);box-shadow:0 3px #d75d9b}.hand-title{text-align:center;font-weight:900;margin:8px 0}.hands{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.hand{background:#fff;border:2px solid #eee3f4;border-radius:17px;padding:12px 8px;color:var(--ink);font-weight:900}.hand.active{border-color:var(--purple);background:#f5efff;box-shadow:0 0 0 2px #d9c8f5}.hand .emoji{font-size:28px;display:block;margin-bottom:3px}.hand small{display:block;font-size:11px;color:var(--muted);font-weight:700;margin-top:3px}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.hud div{background:#fff;border:2px solid #f2e7f5;border-radius:13px;text-align:center;padding:7px 2px;font-size:10px;color:var(--muted);font-weight:900}.hud b{display:block;font-size:17px;color:var(--ink);font-variant-numeric:tabular-nums}.stage-row{display:flex;justify-content:space-between;align-items:center;margin:8px 4px 0;font-size:12px;font-weight:900;color:#8f7ca1}.stage-row .stage{color:var(--purple)}
+.character-zone{height:clamp(105px,20svh,155px);display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}.character{font-size:clamp(65px,18vw,88px);line-height:1;filter:drop-shadow(0 5px 2px #c8b6d455);transition:transform .12s}.character.angry{transform:scale(1.15) rotate(-7deg);filter:drop-shadow(0 0 9px #ff5a5a)}.character-label{position:absolute;bottom:3px;font-size:10px;color:#a697b2;font-weight:800}
+.playfield{margin-top:auto;height:35svh;min-height:205px;max-height:285px;background:linear-gradient(145deg,#f8efff,#edf9ff);border:2px solid #fff;border-radius:23px;box-shadow:inset 0 0 0 1px #e9dff2;position:relative;overflow:hidden;padding:12px 10px}.playfield:before{content:"";position:absolute;left:8px;right:8px;top:50%;border-top:1px dashed #d9cce7}.lane-label{position:absolute;left:9px;font-size:9px;font-weight:900;color:#a99bb9;z-index:1}.lane-label.top{top:22%}.lane-label.bottom{bottom:22%}.lane-line{position:absolute;left:0;right:0;height:2px;background:#e0d4ec;opacity:.8}.lane-line.top{top:25%}.lane-line.bottom{top:75%}.pad-wrap{position:absolute;top:10px;bottom:10px;width:16%;min-width:48px;max-width:66px;z-index:3;touch-action:none}.pad-wrap.right{right:10px}.pad-wrap.left{left:10px}.pad{height:100%;width:100%;border:4px solid #fff;border-radius:25px;background:linear-gradient(180deg,#f7c9e2,#c7b4fa 52%,#a9e1f8);box-shadow:inset 0 0 0 2px #dac9ec,0 5px #d7c9e5;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:8px 2px;color:#fff;font-weight:1000;text-shadow:0 1px 4px #806c9a;user-select:none;-webkit-user-select:none}.pad small{font-size:9px}.pad strong{writing-mode:vertical-rl;font-size:11px;letter-spacing:2px}.pad.active{filter:saturate(1.2);box-shadow:inset 0 0 0 3px #fff,0 2px #d7c9e5}.endpoint{position:absolute;width:15px;height:15px;border:3px solid white;border-radius:50%;background:#9a7bca;top:calc(25% - 7px);z-index:4;pointer-events:none}.endpoint.bottom{top:calc(75% - 7px);background:#69bfe5}.note{position:absolute;width:18px;height:18px;border-radius:50%;background:#b29af5;border:3px solid #fff;box-shadow:0 0 0 2px #a58af0;z-index:2;transform:translate(-50%,-50%);pointer-events:none}.note.bottom{background:#7ed2f2;box-shadow:0 0 0 2px #62bde3}.count{position:absolute;inset:0;background:#fff9;display:none;align-items:center;justify-content:center;font-size:76px;font-weight:1000;color:var(--pink);z-index:8}.count.show{display:flex}.feedback{height:32px;text-align:center;font-size:22px;font-weight:1000;color:var(--pink);padding-top:2px}.pad-hint{text-align:center;font-size:11px;color:#988aa3;font-weight:800;margin:7px 0 0}.result-title{text-align:center;font-size:30px;margin:8px 0;color:var(--pink)}.rank{text-align:center;font-size:70px;font-weight:1000;color:var(--pink);line-height:1.1}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.stats div{background:#fff0f7;border-radius:14px;padding:12px;text-align:center;font-size:11px;color:#99879e;font-weight:900}.stats b{display:block;font-size:22px;color:var(--ink)}.result-mayo{font-size:65px;text-align:center;animation:bob .7s infinite alternate}@keyframes bob{to{transform:translateY(-8px) rotate(5deg)}}.footer{text-align:center;font-size:10px;color:#b0a4b8;margin-top:9px}
+@media(max-height:700px){.character-zone{height:95px}.playfield{height:33svh;min-height:190px}.brand{margin-bottom:7px}.mascot{font-size:66px}}
+</style>
+</head>
+<body>
+<main class="app">
+<section id="home">
+ <header class="brand"><h1>SLIDE BEAT</h1><div class="sub">MOVE TO THE BEAT!</div></header>
+ <div class="card">
+  <div class="mascot">🤓</div>
+  <div class="hand-title">どちらの手でプレイする？</div>
+  <div class="hands">
+   <button class="hand active" id="rightChoice"><span class="emoji">👉</span>右利き<small>パッド右・ノーツ左から</small></button>
+   <button class="hand" id="leftChoice"><span class="emoji">👈</span>左利き<small>パッド左・ノーツ右から</small></button>
+  </div>
+  <div class="muted" style="text-align:center;margin:10px 0 15px">パッドに指を置いたまま、上端と下端までしっかり往復！ノーツが端に届く瞬間に折り返そう。</div>
+  <button class="primary" id="start">START ▶</button>
+ </div>
+ <p class="footer">45 SECONDS · 3 BPM STAGES · NO BGM</p>
+</section>
+<section id="game" class="hidden">
+ <div class="hud"><div>SCORE<b id="score">0</b></div><div>COMBO<b id="combo">0</b></div><div>MISS<b id="miss">0/5</b></div><div>TIME<b id="time">45</b></div></div>
+ <div class="stage-row"><span class="stage" id="stage">STAGE 1 · 70 BPM</span><span id="handLabel">RIGHT HAND</span></div>
+ <div class="character-zone"><div class="character" id="character">🤓</div><div class="character-label" id="characterLabel">余裕の表情</div></div>
+ <div class="playfield" id="playfield">
+  <div class="lane-line top"></div><div class="lane-line bottom"></div>
+  <div class="lane-label top">▲ TOP</div><div class="lane-label bottom">▼ BOTTOM</div>
+  <div class="pad-wrap right" id="padWrap"><div class="pad" id="pad"><small>▲ TOP</small><strong>SLIDE</strong><small>▼ BOTTOM</small></div></div>
+  <div class="endpoint" id="topEndpoint"></div><div class="endpoint bottom" id="bottomEndpoint"></div>
+  <div class="count" id="count"></div>
+ </div>
+ <div class="feedback" id="feedback">READY?</div>
+ <div class="pad-hint">指を離さず、上端 ⇅ 下端までフルレンジで！</div>
+</section>
+<section id="result" class="hidden">
+ <header class="brand"><h1>SLIDE BEAT</h1><div class="sub">RESULT</div></header>
+ <div class="card">
+  <h2 class="result-title">FINISH!</h2><div class="result-mayo">🧴</div><div class="rank" id="rank">A</div>
+  <div class="stats"><div>SCORE<b id="rs">0</b></div><div>MAX COMBO<b id="rc">0</b></div><div>MISS<b id="rm">0</b></div><div>PERFECT RATE<b id="rr">0%</b></div></div>
+  <button class="primary" id="retry">RETRY ↻</button>
+ </div>
+</section>
+</main>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+let hand='right',audio=null,running=false,startAt=0,raf=0,score=0,combo=0,maxCombo=0,miss=0,perfect=0,good=0,events=[],pointerId=null,lastY=null,lastDir=0,angryTimer=0;
+const TRAVEL=1.35,PERFECT_MS=55,GOOD_MS=160;
+function sound(freq=700,dur=.11,type='sine',vol=.045){try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(vol,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+dur);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+dur)}catch(e){}}
+function show(which){['home','game','result'].forEach(id=>$(id).classList.toggle('hidden',id!==which))}
+function choose(value){hand=value;$('rightChoice').classList.toggle('active',hand==='right');$('leftChoice').classList.toggle('active',hand==='left')}
+$('rightChoice').onclick=()=>choose('right');$('leftChoice').onclick=()=>choose('left');
+function reset(){score=combo=maxCombo=miss=perfect=good=0;events=[];pointerId=null;lastY=null;lastDir=0;$('score').textContent='0';$('combo').textContent='0';$('miss').textContent='0/5';$('time').textContent='45';$('feedback').textContent='READY?';$('character').classList.remove('angry');$('pad').classList.remove('active');$('playfield').querySelectorAll('.note').forEach(n=>n.remove());$('padWrap').className='pad-wrap '+hand;$('handLabel').textContent=hand==='right'?'RIGHT HAND':'LEFT HAND';$('topEndpoint').style.left=hand==='left'?'calc(16% + 14px)':'auto';$('bottomEndpoint').style.left=hand==='left'?'calc(16% + 14px)':'auto';$('topEndpoint').style.right=hand==='right'?'calc(16% + 14px)':'auto';$('bottomEndpoint').style.right=hand==='right'?'calc(16% + 14px)':'auto'}
+$('start').onclick=()=>{reset();show('game');let n=3;$('count').classList.add('show');$('count').textContent='3';sound(440,.12,'square');const iv=setInterval(()=>{n--;if(n>0){$('count').textContent=String(n);sound(440,.12,'square')}else if(n===0){$('count').textContent='START!';sound(880,.22,'triangle')}else{clearInterval(iv);$('count').classList.remove('show');begin()}},800)};
+function schedule(){let arr=[],idx=0;for(const [from,to,bpm] of [[0,15,70],[15,30,95],[30,45,125]]){const beat=60/bpm;for(let t=from+beat;t<to;t+=beat){arr.push({t,lane:idx%2,spawn:t-TRAVEL,done:false,el:null});idx++}}return arr.sort((a,b)=>a.spawn-b.spawn)}
+function begin(){events=schedule();running=true;startAt=performance.now();raf=requestAnimationFrame(loop)}
+function setFeedback(text,color){$('feedback').textContent=text;$('feedback').style.color=color||'var(--pink)'}
+function missTurn(){if(!running)return;miss++;combo=0;$('miss').textContent=miss+'/5';$('combo').textContent='0';setFeedback('MISS!','#e45d70');sound(165,.2,'sawtooth',.055);$('character').classList.add('angry');clearTimeout(angryTimer);angryTimer=setTimeout(()=>$('character').classList.remove('angry'),650);if(miss>=5)finish()}
+function scoreTurn(delta){if(delta<=PERFECT_MS/1000){perfect++;score+=1000;combo++;setFeedback('PERFECT ✨','#ed5da8');sound(1040,.16,'sine',.065)}else if(delta<=GOOD_MS/1000){good++;score+=500;combo++;setFeedback('GOOD ♪','#8b6bc0');sound(740,.13,'sine',.05)}else{missTurn();return}maxCombo=Math.max(maxCombo,combo);$('score').textContent=score.toLocaleString();$('combo').textContent=combo}
+function turn(lane,now){if(!running)return;let candidate=null,best=Infinity;for(const e of events){if(e.done||e.lane!==lane)continue;const d=Math.abs(e.t-now);if(d<best){best=d;candidate=e}}if(candidate&&best<=GOOD_MS/1000){candidate.done=true;if(candidate.el)candidate.el.classList.add('hit');scoreTurn(best)}else{missTurn()}}
+function pointerDown(e){if(!running||pointerId!==null)return;pointerId=e.pointerId;$('pad').setPointerCapture(pointerId);$('pad').classList.add('active');lastY=e.clientY;lastDir=0}
+function pointerMove(e){if(!running||pointerId!==e.pointerId)return;const rect=$('pad').getBoundingClientRect(),y=Math.max(0,Math.min(1,(e.clientY-rect.top)/rect.height));if(lastY===null){lastY=e.clientY;return}const dy=e.clientY-lastY,dir=Math.abs(dy)<1?0:Math.sign(dy);if(dir!==0){if(lastDir!==0&&dir!==lastDir){if(y<=.14&&lastDir<0)turn(0,(performance.now()-startAt)/1000);else if(y>=.86&&lastDir>0)turn(1,(performance.now()-startAt)/1000)}lastDir=dir}lastY=e.clientY}
+function pointerEnd(e){if(pointerId!==e.pointerId)return;pointerId=null;lastY=null;lastDir=0;$('pad').classList.remove('active');if(running)missTurn()}
+$('pad').addEventListener('pointerdown',pointerDown);$('pad').addEventListener('pointermove',pointerMove);$('pad').addEventListener('pointerup',pointerEnd);$('pad').addEventListener('pointercancel',pointerEnd);
+function loop(){if(!running)return;const t=(performance.now()-startAt)/1000,bpm=t<15?70:t<30?95:125,stage=t<15?1:t<30?2:3;$('time').textContent=Math.max(0,Math.ceil(45-t));$('stage').textContent='STAGE '+stage+' · '+bpm+' BPM';$('characterLabel').textContent=stage===1?'余裕の表情':stage===2?'真剣な表情':'必死の表情';for(const e of events){if(!e.el&&t>=e.spawn){const el=document.createElement('i');el.className='note'+(e.lane?' bottom':'');el.style.top=e.lane?'75%':'25%';$('playfield').appendChild(el);e.el=el}if(e.el&&!e.done){const progress=Math.max(0,Math.min(1,(t-e.spawn)/TRAVEL));const padX=$('padWrap').offsetLeft,padW=$('padWrap').offsetWidth,fieldW=$('playfield').clientWidth;const x=hand==='right'?18+progress*(padX-18):fieldW-18-progress*(fieldW-18-(padX+padW));e.el.style.left=x+'px';if(t>e.t+GOOD_MS/1000){e.done=true;e.el.remove();missTurn();if(!running)return}}}if(t>=45){finish();return}raf=requestAnimationFrame(loop)}
+function finish(){if(!running)return;running=false;cancelAnimationFrame(raf);if(pointerId!==null){pointerId=null;$('pad').classList.remove('active')}const total=perfect+good+miss,rate=total?Math.round(perfect/total*100):0;$('rank').textContent=rate>=95?'S':rate>=85?'A':rate>=70?'B':rate>=50?'C':'D';$('rs').textContent=score.toLocaleString();$('rc').textContent=maxCombo;$('rm').textContent=miss;$('rr').textContent=rate+'%';show('result')}
+$('retry').onclick=()=>show('home');
+})();
+</script>
+</body>
+</html>
